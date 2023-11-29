@@ -1,20 +1,15 @@
+import { Volum } from "@/types";
 import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-
-type ResponseData = {
-  id: string;
-  test: string;
-};
 
 const prisma = new PrismaClient();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData[]>
+  res: NextApiResponse<Volum[]>
 ) {
-  const prismaTest = await prisma.test.findMany();
+  const volume = await prisma.volume.findMany({});
 
-  console.log(prismaTest);
-
-  res.status(200).json(prismaTest);
+  res.status(200).json(volume);
+  prisma.$disconnect();
 }

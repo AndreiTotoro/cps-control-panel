@@ -7,7 +7,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model test {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  test String
+model volume {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  link  String
+  titlu String
 }
