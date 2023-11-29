@@ -85,7 +85,7 @@ export default function Home() {
               ))
             ) : (
               <Text color={"black"}>
-                Momentan nu este niciun volum in baza de date.
+                Momentan nu exista niciun volum in baza de date.
               </Text>
             )}
             <Text
