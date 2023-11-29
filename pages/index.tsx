@@ -3,6 +3,8 @@ import {
   Button,
   Center,
   Flex,
+  HStack,
+  Input,
   Stack,
   Text,
   VStack,
@@ -14,6 +16,8 @@ import { Volum } from "@/types";
 
 export default function Home() {
   const [volume, setVolume] = useState<Volum[] | "">("");
+  const [titluVolumNou, setTitluVolumNou] = useState<string>("");
+  const [linkVolumNou, setLinkVolumNou] = useState<string>("");
 
   const obtineVolume = async () => {
     const volume = await axios.get<Volum[]>("/api/obtine-volume");
@@ -55,6 +59,26 @@ export default function Home() {
                 Momentan nu este niciun volum in baza de date.
               </Text>
             )}
+            <Text
+              pt={3}
+              color={"black"}
+              fontWeight={"bold"}
+            >
+              Adauga Volum Nou
+            </Text>
+            <HStack color={"black"}>
+              <Input
+                value={titluVolumNou}
+                onChange={(e) => setTitluVolumNou(e.target.value)}
+                placeholder="nume volum"
+              />
+              <Input
+                value={linkVolumNou}
+                onChange={(e) => setLinkVolumNou(e.target.value)}
+                placeholder="link volum"
+              />
+              <Button px={6}>Adauga</Button>
+            </HStack>
           </Stack>
         </VStack>
       </Center>
