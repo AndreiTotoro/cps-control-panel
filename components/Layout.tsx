@@ -1,8 +1,6 @@
 import { Box, Container, Stack, Text } from "@chakra-ui/react";
 import { Space_Mono } from "next/font/google";
 import React from "react";
-import Navbar from "./Navbar";
-import Main from "./Main";
 
 const spaceMonoFont = Space_Mono({
   weight: ["400", "700"],
@@ -23,6 +21,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         color={"white"}
         px={[5, 5, 5, "2em"]}
       >
+        <Text
+          pt={10}
+          fontWeight={"bold"}
+        >
+          Setari Pagina
+        </Text>
         <Stack minH={"100vh"}>
           <Box
             mt={["3em"]}
