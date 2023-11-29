@@ -35,6 +35,16 @@ export default function Home() {
     obtineVolume();
   };
 
+  const stergeVolum = async (id: string) => {
+    const volum = await axios.delete<Volum>("/api/sterge-volum", {
+      data: {
+        id,
+      },
+    });
+    console.log(volum);
+    obtineVolume();
+  };
+
   useEffect(() => {
     obtineVolume();
   }, []);
@@ -67,6 +77,7 @@ export default function Home() {
                   <Box
                     _hover={{ cursor: "pointer" }}
                     color={"red"}
+                    onClick={() => stergeVolum(volum.id)}
                   >
                     <FiTrash />
                   </Box>
