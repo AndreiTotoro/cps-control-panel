@@ -21,34 +21,26 @@ export default function Home() {
   const [linkVolumNou, setLinkVolumNou] = useState<string>("");
 
   const obtineVolume = async () => {
-    const volume = await axios.get<Volum[]>(
-      "https://cps-control-panel.vercel.app/api/obtine-volume"
-    );
+    const volume = await axios.get<Volum[]>("./helpers/obtine-volume");
     setVolume(volume.data);
   };
 
   const adaugaVolum = async () => {
-    const volum = await axios.post<Volum>(
-      "https://cps-control-panel.vercel.app/api/adauga-volum",
-      {
-        titlu: titluVolumNou,
-        link: linkVolumNou,
-      }
-    );
+    const volum = await axios.post<Volum>("./helpers/adauga-volum", {
+      titlu: titluVolumNou,
+      link: linkVolumNou,
+    });
     setTitluVolumNou("");
     setLinkVolumNou("");
     obtineVolume();
   };
 
   const stergeVolum = async (id: string) => {
-    const volum = await axios.delete<Volum>(
-      "https://cps-control-panel.vercel.app/api/sterge-volum",
-      {
-        data: {
-          id,
-        },
-      }
-    );
+    const volum = await axios.delete<Volum>("./helpers/sterge-volum", {
+      data: {
+        id,
+      },
+    });
     console.log(volum);
     obtineVolume();
   };
