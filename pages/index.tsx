@@ -13,6 +13,7 @@ import Layout from "@/components/Layout";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Volum } from "@/types";
+import { FiTrash } from "react-icons/fi";
 
 export default function Home() {
   const [volume, setVolume] = useState<Volum[] | "">("");
@@ -22,6 +23,16 @@ export default function Home() {
   const obtineVolume = async () => {
     const volume = await axios.get<Volum[]>("/api/obtine-volume");
     setVolume(volume.data);
+  };
+
+  const adaugaVolum = async () => {
+    const volum = await axios.post<Volum>("/api/adauga-volum", {
+      titlu: titluVolumNou,
+      link: linkVolumNou,
+    });
+    setTitluVolumNou("");
+    setLinkVolumNou("");
+    obtineVolume();
   };
 
   useEffect(() => {
@@ -46,12 +57,19 @@ export default function Home() {
             {volume ? (
               volume.map((volum) => (
                 <Flex
+                  align={"center"}
                   gap={5}
                   color={"black"}
                   key={volum.id}
                 >
                   <Text>{volum.titlu}</Text>
                   <Text>{volum.link}</Text>
+                  <Box
+                    _hover={{ cursor: "pointer" }}
+                    color={"red"}
+                  >
+                    <FiTrash />
+                  </Box>
                 </Flex>
               ))
             ) : (
@@ -77,7 +95,12 @@ export default function Home() {
                 onChange={(e) => setLinkVolumNou(e.target.value)}
                 placeholder="link volum"
               />
-              <Button px={6}>Adauga</Button>
+              <Button
+                onClick={() => adaugaVolum()}
+                px={6}
+              >
+                Adauga
+              </Button>
             </HStack>
           </Stack>
         </VStack>
