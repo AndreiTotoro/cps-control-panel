@@ -7,12 +7,18 @@ const prisma = new PrismaClient();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Volum[]>
+  res: NextApiResponse<Volum[] | { message: string }>
 ) {
   try {
-    const volume: Volum[] = await prisma.volume.findMany({});
-    console.log(req.headers);
-    res.status(200).json(volume);
+    if (
+      req.headers["security-phrase"] === process.env.NEXT_PUBLIC_SECURITY_PHRASE
+    ) {
+      const volume: Volum[] = await prisma.volume.findMany({});
+      console.log(req.headers);
+      res.status(200).json(volume);
+    } else {
+      res.status(401).json({ message: "Unauthorized" });
+    }
   } catch (error: any) {
     res.status(500).json(error);
   } finally {
