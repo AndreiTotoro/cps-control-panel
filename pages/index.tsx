@@ -5,6 +5,7 @@ import {
   Flex,
   HStack,
   Input,
+  Spinner,
   Stack,
   Text,
   VStack,
@@ -20,6 +21,8 @@ export default function Home() {
   const [volume, setVolume] = useState<Volum[] | "">("");
   const [titluVolumNou, setTitluVolumNou] = useState<string>("");
   const [linkVolumNou, setLinkVolumNou] = useState<string>("");
+  const [currentLoadingThrashCan, setCurrentLoadingThrashCan] =
+    useState<string>("");
 
   const obtineVolume = async () => {
     const volume = await axios.get<Volum[]>("/api/get/volume", {
@@ -49,6 +52,7 @@ export default function Home() {
   };
 
   const stergeVolum = async (id: string) => {
+    setCurrentLoadingThrashCan(id);
     const volum = await axios.delete<Volum>("/api/delete/volum", {
       data: {
         id,
@@ -57,8 +61,8 @@ export default function Home() {
         "security-phrase": process.env.NEXT_PUBLIC_SECURITY_PHRASE,
       },
     });
-    console.log(volum);
     obtineVolume();
+    setCurrentLoadingThrashCan("");
   };
 
   useEffect(() => {
@@ -95,7 +99,11 @@ export default function Home() {
                     color={"red"}
                     onClick={() => stergeVolum(volum.id)}
                   >
-                    <FiTrash />
+                    {currentLoadingThrashCan == volum.id ? (
+                      <Spinner />
+                    ) : (
+                      <FiTrash />
+                    )}
                   </Box>
                 </Flex>
               ))
