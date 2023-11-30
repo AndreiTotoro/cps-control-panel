@@ -21,6 +21,7 @@ export default function Home() {
   const [volume, setVolume] = useState<Volum[] | "">("");
   const [titluVolumNou, setTitluVolumNou] = useState<string>("");
   const [linkVolumNou, setLinkVolumNou] = useState<string>("");
+  const [isAdding, setIsAdding] = useState<boolean>(false);
   const [currentLoadingThrashCan, setCurrentLoadingThrashCan] =
     useState<string>("");
 
@@ -34,6 +35,7 @@ export default function Home() {
   };
 
   const adaugaVolum = async () => {
+    setIsAdding(true);
     const volum = await axios.post<Volum>(
       "/api/post/volum",
       {
@@ -49,6 +51,7 @@ export default function Home() {
     setTitluVolumNou("");
     setLinkVolumNou("");
     obtineVolume();
+    setIsAdding(false);
   };
 
   const stergeVolum = async (id: string) => {
@@ -80,6 +83,7 @@ export default function Home() {
           >
             <Text
               color={"black"}
+              fontSize={"xl"}
               fontWeight={"bold"}
             >
               Volume
@@ -92,8 +96,12 @@ export default function Home() {
                   color={"black"}
                   key={volum.id}
                 >
-                  <Text>{volum.titlu}</Text>
-                  <Text>{volum.link}</Text>
+                  <Text>
+                    <b>Titlu:</b> {volum.titlu}
+                  </Text>
+                  <Text>
+                    <b>Link:</b> {volum.link}
+                  </Text>
                   <Box
                     _hover={{ cursor: "pointer" }}
                     color={"red"}
@@ -130,12 +138,26 @@ export default function Home() {
                 onChange={(e) => setLinkVolumNou(e.target.value)}
                 placeholder="link volum"
               />
-              <Button
-                onClick={() => adaugaVolum()}
-                px={6}
+              <Box
+                rounded={"xl"}
+                bg={"lightgray"}
+                width={"20%"}
+                height={10}
               >
-                Adauga
-              </Button>
+                {isAdding ? (
+                  <Center height={"100%"}>
+                    <Spinner />
+                  </Center>
+                ) : (
+                  <Button
+                    bg={"none"}
+                    _hover={{ bg: "none" }}
+                    onClick={() => adaugaVolum()}
+                  >
+                    Adauga
+                  </Button>
+                )}
+              </Box>
             </HStack>
           </Stack>
         </VStack>
