@@ -11,7 +11,7 @@ export default async function handler(
 ) {
   try {
     const volume: Volum[] = await prisma.volume.findMany({});
-
+    console.log(req.headers);
     res.status(200).json(volume);
   } catch (error: any) {
     res.status(500).json(error);

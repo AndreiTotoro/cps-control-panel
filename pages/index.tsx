@@ -9,6 +9,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import "dotenv/config";
 import Layout from "@/components/Layout";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -21,7 +22,11 @@ export default function Home() {
   const [linkVolumNou, setLinkVolumNou] = useState<string>("");
 
   const obtineVolume = async () => {
-    const volume = await axios.get<Volum[]>("/api/get/volume");
+    const volume = await axios.get<Volum[]>("/api/get/volume", {
+      headers: {
+        "security-phrase": process.env.NEXT_PUBLIC_SECURITY_PHRASE,
+      },
+    });
     setVolume(volume.data);
   };
 
