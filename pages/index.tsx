@@ -31,10 +31,18 @@ export default function Home() {
   };
 
   const adaugaVolum = async () => {
-    const volum = await axios.post<Volum>("/api/post/volum", {
-      titlu: titluVolumNou,
-      link: linkVolumNou,
-    });
+    const volum = await axios.post<Volum>(
+      "/api/post/volum",
+      {
+        titlu: titluVolumNou,
+        link: linkVolumNou,
+      },
+      {
+        headers: {
+          "security-phrase": process.env.NEXT_PUBLIC_SECURITY_PHRASE,
+        },
+      }
+    );
     setTitluVolumNou("");
     setLinkVolumNou("");
     obtineVolume();
@@ -44,6 +52,9 @@ export default function Home() {
     const volum = await axios.delete<Volum>("/api/delete/volum", {
       data: {
         id,
+      },
+      headers: {
+        "security-phrase": process.env.NEXT_PUBLIC_SECURITY_PHRASE,
       },
     });
     console.log(volum);
