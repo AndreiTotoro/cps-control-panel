@@ -21,12 +21,12 @@ export default function Home() {
   const [linkVolumNou, setLinkVolumNou] = useState<string>("");
 
   const obtineVolume = async () => {
-    const volume = await axios.get<Volum[]>("/api/obtine-volume");
+    const volume = await axios.get<Volum[]>("/api/get/volume");
     setVolume(volume.data);
   };
 
   const adaugaVolum = async () => {
-    const volum = await axios.post<Volum>("/api/adauga-volum", {
+    const volum = await axios.post<Volum>("/api/post/volum", {
       titlu: titluVolumNou,
       link: linkVolumNou,
     });
@@ -36,7 +36,7 @@ export default function Home() {
   };
 
   const stergeVolum = async (id: string) => {
-    const volum = await axios.delete<Volum>("/api/sterge-volum", {
+    const volum = await axios.delete<Volum>("/api/delete/volum", {
       data: {
         id,
       },

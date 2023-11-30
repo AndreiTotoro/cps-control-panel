@@ -22,10 +22,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         px={[5, 5, 5, "2em"]}
       >
         <Text
+          fontSize={"xl"}
           pt={10}
           fontWeight={"bold"}
         >
-          Setari Pagina
+          Gestionare | Creanga...Prin Stiinte
         </Text>
         <Stack minH={"100vh"}>
           <Box
