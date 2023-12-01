@@ -81,7 +81,7 @@ export default function Home() {
     <Layout>
       <Center>
         <Accordion
-          width={["100%", "100%", "100%", "50%"]}
+          width={["100%", "100%", "100%", "70%"]}
           bg={"white"}
           color={"black"}
           allowToggle
@@ -109,6 +109,7 @@ export default function Home() {
                   rounded={"lg"}
                 >
                   <Text
+                    textAlign={"center"}
                     color={"black"}
                     fontSize={"xl"}
                     fontWeight={"bold"}
@@ -118,30 +119,46 @@ export default function Home() {
                   {volume ? (
                     volume.map((volum) => (
                       <Flex
+                        justify={"space-between"}
+                        align={["left", "left", "left", "center"]}
+                        flexDir={["column", "column", "column", "row"]}
                         p={4}
+                        fontSize={"sm"}
                         borderBottom={"1px solid lightgray"}
-                        align={"center"}
                         gap={5}
                         color={"black"}
                         key={volum.id}
                       >
-                        <Text>
-                          <b>Titlu:</b> {volum.titlu}
-                        </Text>
-                        <Text>
-                          <b>Link:</b> {volum.link}
-                        </Text>
-                        <Box
-                          _hover={{ cursor: "pointer" }}
-                          color={"red"}
-                          onClick={() => stergeVolum(volum.id)}
+                        <Stack>
+                          <Text>
+                            <b>Titlu:</b> {volum.titlu}
+                          </Text>
+                          <Text>
+                            <b>Link:</b> {volum.link}
+                          </Text>
+                        </Stack>
+                        <Flex
+                          align={"center"}
+                          gap={4}
                         >
-                          {currentLoadingThrashCan == volum.id ? (
-                            <Spinner />
-                          ) : (
-                            <FiTrash />
-                          )}
-                        </Box>
+                          <Box
+                            _hover={{ cursor: "pointer" }}
+                            color={"red"}
+                            onClick={() => stergeVolum(volum.id)}
+                          >
+                            {currentLoadingThrashCan == volum.id ? (
+                              <Spinner />
+                            ) : (
+                              <FiTrash />
+                            )}
+                          </Box>
+                          <Button
+                            fontSize={"sm"}
+                            h={7}
+                          >
+                            Edit
+                          </Button>
+                        </Flex>
                       </Flex>
                     ))
                   ) : (
