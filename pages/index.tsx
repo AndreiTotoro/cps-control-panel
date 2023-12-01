@@ -21,6 +21,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Volum } from "@/types";
 import { FiTrash } from "react-icons/fi";
+import EditModal from "@/components/EditModal";
 
 export default function Home() {
   const [volume, setVolume] = useState<Volum[] | "">("");
@@ -169,13 +170,6 @@ export default function Home() {
                               <FiTrash />
                             )}
                           </Box>
-                          <Button
-                            onClick={() => editeazaVolum(volum.id)}
-                            fontSize={"sm"}
-                            h={7}
-                          >
-                            Editeaza
-                          </Button>
                         </Flex>
                       </Flex>
                     ))
