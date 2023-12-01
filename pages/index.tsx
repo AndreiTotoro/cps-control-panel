@@ -73,6 +73,23 @@ export default function Home() {
     setCurrentLoadingThrashCan("");
   };
 
+  const editeazaVolum = async (id: string) => {
+    const volumEditat = await axios.put<Volum>(
+      "/api/put/volum",
+      {
+        titlu: "hi",
+        link: "bye",
+        id,
+      },
+      {
+        headers: {
+          "security-phrase": process.env.NEXT_PUBLIC_SECURITY_PHRASE,
+        },
+      }
+    );
+    obtineVolume();
+  };
+
   useEffect(() => {
     obtineVolume();
   }, []);
@@ -94,7 +111,7 @@ export default function Home() {
                   fontWeight={"bold"}
                   as="span"
                   flex="1"
-                  textAlign="left"
+                  textAlign="center"
                 >
                   Editare Volume
                 </Box>
@@ -153,10 +170,11 @@ export default function Home() {
                             )}
                           </Box>
                           <Button
+                            onClick={() => editeazaVolum(volum.id)}
                             fontSize={"sm"}
                             h={7}
                           >
-                            Edit
+                            Editeaza
                           </Button>
                         </Flex>
                       </Flex>
