@@ -1,4 +1,9 @@
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Box,
   Button,
   Center,
@@ -75,92 +80,119 @@ export default function Home() {
   return (
     <Layout>
       <Center>
-        <VStack>
-          <Stack
-            bg={"white"}
-            p={5}
-            rounded={"lg"}
-          >
-            <Text
-              color={"black"}
-              fontSize={"xl"}
-              fontWeight={"bold"}
-            >
-              Volume
-            </Text>
-            {volume ? (
-              volume.map((volum) => (
-                <Flex
-                  align={"center"}
-                  gap={5}
-                  color={"black"}
-                  key={volum.id}
+        <Accordion
+          width={"50%"}
+          bg={"white"}
+          color={"black"}
+          allowToggle
+        >
+          <AccordionItem>
+            <h2>
+              <AccordionButton>
+                <Box
+                  fontSize={"xl"}
+                  fontWeight={"bold"}
+                  as="span"
+                  flex="1"
+                  textAlign="left"
                 >
-                  <Text>
-                    <b>Titlu:</b> {volum.titlu}
-                  </Text>
-                  <Text>
-                    <b>Link:</b> {volum.link}
-                  </Text>
-                  <Box
-                    _hover={{ cursor: "pointer" }}
-                    color={"red"}
-                    onClick={() => stergeVolum(volum.id)}
+                  Editare Volume
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel pb={4}>
+              <VStack>
+                <Stack
+                  bg={"white"}
+                  p={5}
+                  rounded={"lg"}
+                >
+                  <Text
+                    color={"black"}
+                    fontSize={"xl"}
+                    fontWeight={"bold"}
                   >
-                    {currentLoadingThrashCan == volum.id ? (
-                      <Spinner />
-                    ) : (
-                      <FiTrash />
-                    )}
-                  </Box>
-                </Flex>
-              ))
-            ) : (
-              <Text color={"black"}>
-                Momentan nu exista niciun volum in baza de date.
-              </Text>
-            )}
-            <Text
-              pt={3}
-              color={"black"}
-              fontWeight={"bold"}
-            >
-              Adauga Volum Nou
-            </Text>
-            <HStack color={"black"}>
-              <Input
-                value={titluVolumNou}
-                onChange={(e) => setTitluVolumNou(e.target.value)}
-                placeholder="nume volum"
-              />
-              <Input
-                value={linkVolumNou}
-                onChange={(e) => setLinkVolumNou(e.target.value)}
-                placeholder="link volum"
-              />
-              <Box
-                rounded={"xl"}
-                bg={"lightgray"}
-                width={"20%"}
-                height={10}
-              >
-                {isAdding ? (
-                  <Center height={"100%"}>
-                    <Spinner />
-                  </Center>
-                ) : (
-                  <Button
-                    bg={"none"}
-                    _hover={{ bg: "none" }}
-                    onClick={() => adaugaVolum()}
+                    Lista Volume
+                  </Text>
+                  {volume ? (
+                    volume.map((volum) => (
+                      <Flex
+                        p={4}
+                        borderBottom={"1px solid lightgray"}
+                        align={"center"}
+                        gap={5}
+                        color={"black"}
+                        key={volum.id}
+                      >
+                        <Text>
+                          <b>Titlu:</b> {volum.titlu}
+                        </Text>
+                        <Text>
+                          <b>Link:</b> {volum.link}
+                        </Text>
+                        <Box
+                          _hover={{ cursor: "pointer" }}
+                          color={"red"}
+                          onClick={() => stergeVolum(volum.id)}
+                        >
+                          {currentLoadingThrashCan == volum.id ? (
+                            <Spinner />
+                          ) : (
+                            <FiTrash />
+                          )}
+                        </Box>
+                      </Flex>
+                    ))
+                  ) : (
+                    <Text color={"black"}>
+                      Momentan nu exista niciun volum in baza de date.
+                    </Text>
+                  )}
+                  <Text
+                    pt={3}
+                    color={"black"}
+                    fontWeight={"bold"}
                   >
-                    Adauga
-                  </Button>
-                )}
-              </Box>
-            </HStack>
-          </Stack>
-        </VStack>
+                    Adauga Volum Nou
+                  </Text>
+                  <HStack color={"black"}>
+                    <Input
+                      value={titluVolumNou}
+                      onChange={(e) => setTitluVolumNou(e.target.value)}
+                      placeholder="nume volum"
+                    />
+                    <Input
+                      value={linkVolumNou}
+                      onChange={(e) => setLinkVolumNou(e.target.value)}
+                      placeholder="link volum"
+                    />
+                    <Box
+                      rounded={"xl"}
+                      bg={"lightgray"}
+                      width={"20%"}
+                      height={10}
+                    >
+                      {isAdding ? (
+                        <Center height={"100%"}>
+                          <Spinner />
+                        </Center>
+                      ) : (
+                        <Button
+                          bg={"none"}
+                          _hover={{ bg: "none" }}
+                          onClick={() => adaugaVolum()}
+                        >
+                          Adauga
+                        </Button>
+                      )}
+                    </Box>
+                  </HStack>
+                </Stack>
+              </VStack>
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
       </Center>
     </Layout>
   );
