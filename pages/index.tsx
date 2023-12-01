@@ -81,7 +81,7 @@ export default function Home() {
     <Layout>
       <Center>
         <Accordion
-          width={"50%"}
+          width={["100%", "100%", "100%", "50%"]}
           bg={"white"}
           color={"black"}
           allowToggle
@@ -156,7 +156,10 @@ export default function Home() {
                   >
                     Adauga Volum Nou
                   </Text>
-                  <HStack color={"black"}>
+                  <HStack
+                    flexDir={["column", "column", "column", "row"]}
+                    color={"black"}
+                  >
                     <Input
                       value={titluVolumNou}
                       onChange={(e) => setTitluVolumNou(e.target.value)}
@@ -169,8 +172,9 @@ export default function Home() {
                     />
                     <Box
                       rounded={"xl"}
+                      textAlign={"center"}
                       bg={"lightgray"}
-                      width={"20%"}
+                      width={["100%", "100%", "100%", "20%"]}
                       height={10}
                     >
                       {isAdding ? (
