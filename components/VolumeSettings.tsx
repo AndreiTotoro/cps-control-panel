@@ -1,3 +1,4 @@
+import useCPSStore from "@/store/useCPSStore";
 import { Volum } from "@/types";
 import {
   Accordion,
@@ -21,6 +22,7 @@ import React, { useEffect, useState } from "react";
 import { FiTrash } from "react-icons/fi";
 
 export default function VolumeSettings() {
+  const { isMaster } = useCPSStore();
   const [volume, setVolume] = useState<Volum[] | "">("");
   const [titluVolumNou, setTitluVolumNou] = useState<string>("");
   const [linkVolumNou, setLinkVolumNou] = useState<string>("");
@@ -154,7 +156,11 @@ export default function VolumeSettings() {
                       <Box
                         _hover={{ cursor: "pointer" }}
                         color={"red"}
-                        onClick={() => stergeVolum(volum.id)}
+                        onClick={() =>
+                          isMaster
+                            ? stergeVolum(volum.id)
+                            : alert("Masterkey incorect")
+                        }
                       >
                         {currentLoadingThrashCan == volum.id ? (
                           <Spinner />
@@ -206,7 +212,9 @@ export default function VolumeSettings() {
                     <Button
                       bg={"none"}
                       _hover={{ bg: "none" }}
-                      onClick={() => adaugaVolum()}
+                      onClick={() =>
+                        isMaster ? adaugaVolum() : alert("Masterkey incorect")
+                      }
                     >
                       Adauga
                     </Button>
