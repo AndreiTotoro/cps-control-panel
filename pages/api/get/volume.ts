@@ -10,7 +10,11 @@ export default async function handler(
   res: NextApiResponse<Volum[] | { message: string }>
 ) {
   try {
-    const volume: Volum[] = await prisma.volume.findMany({});
+    const volume: Volum[] = await prisma.volume.findMany({
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
     res.status(200).json(volume);
   } catch (error: any) {
     res.status(500).json(error);

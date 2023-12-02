@@ -10,7 +10,11 @@ export default async function handler(
   res: NextApiResponse<Premiu[] | { message: string }>
 ) {
   try {
-    const premii: Premiu[] = await prisma.premii.findMany({});
+    const premii: Premiu[] = await prisma.premii.findMany({
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
     res.status(200).json(premii);
   } catch (error: any) {
     res.status(500).json(error);
