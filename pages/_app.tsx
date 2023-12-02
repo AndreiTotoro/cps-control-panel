@@ -1,4 +1,3 @@
-import "@/styles/globals.css";
 import {
   ChakraBaseProvider,
   ChakraProvider,
