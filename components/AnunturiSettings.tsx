@@ -1,5 +1,5 @@
 import useCPSStore from "@/store/useCPSStore";
-import { Volum } from "@/types";
+import { Anunt, Premiu, Volum } from "@/types";
 import {
   Accordion,
   AccordionButton,
@@ -15,49 +15,50 @@ import {
   Spinner,
   Stack,
   Text,
+  Textarea,
   VStack,
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FiTrash } from "react-icons/fi";
 
-export default function VolumeSettings() {
+export default function AnunturiSettings() {
   const { isMaster } = useCPSStore();
-  const [volume, setVolume] = useState<Volum[] | "">("");
-  const [titluVolumNou, setTitluVolumNou] = useState<string>("");
-  const [linkVolumNou, setLinkVolumNou] = useState<string>("");
+  const [anunturi, setAnunturi] = useState<Anunt[] | "">("");
+  const [titluAnuntNou, setTitluAnuntNou] = useState<string>("");
+  const [continutAnuntNou, setContinutAnuntNou] = useState<string>("");
   const [isAdding, setIsAdding] = useState<boolean>(false);
   const [currentLoadingThrashCan, setCurrentLoadingThrashCan] =
     useState<string>("");
 
-  const obtineVolume = async () => {
-    const volume = await axios.get<Volum[]>("/api/get/volume");
-    setVolume(volume.data);
+  const obtineAnunturi = async () => {
+    const anunturi = await axios.get<Anunt[]>("/api/get/anunturi");
+    setAnunturi(anunturi.data);
   };
 
-  const adaugaVolum = async () => {
+  const adaugaAnunt = async () => {
     setIsAdding(true);
-    const volum = await axios.post<Volum>(
-      "/api/post/volum",
+    const anunt = await axios.post<Anunt>(
+      "/api/post/anunt",
       {
-        titlu: titluVolumNou,
-        link: linkVolumNou,
-      },
+        titlu: titluAnuntNou,
+        continut: continutAnuntNou,
+      } as Anunt,
       {
         headers: {
           "security-phrase": process.env.NEXT_PUBLIC_SECURITY_PHRASE,
         },
       }
     );
-    setTitluVolumNou("");
-    setLinkVolumNou("");
-    obtineVolume();
+    setTitluAnuntNou("");
+    setContinutAnuntNou("");
+    obtineAnunturi();
     setIsAdding(false);
   };
 
-  const stergeVolum = async (id: string) => {
+  const stergeAnunt = async (id: string) => {
     setCurrentLoadingThrashCan(id);
-    const volum = await axios.delete<Volum>("/api/delete/volum", {
+    const anunt = await axios.delete<Anunt>("/api/delete/anunt", {
       data: {
         id,
       },
@@ -65,17 +66,16 @@ export default function VolumeSettings() {
         "security-phrase": process.env.NEXT_PUBLIC_SECURITY_PHRASE,
       },
     });
-    obtineVolume();
+    obtineAnunturi();
     setCurrentLoadingThrashCan("");
   };
 
-  const editeazaVolum = async (id: string) => {
-    const volumEditat = await axios.put<Volum>(
-      "/api/put/volum",
+  const editeazaAnunt = async (id: string) => {
+    const anuntEditat = await axios.put<Anunt>(
+      "/api/put/anunt",
       {
         titlu: "hi",
-        link: "bye",
-        id,
+        continut: "bye",
       },
       {
         headers: {
@@ -83,11 +83,11 @@ export default function VolumeSettings() {
         },
       }
     );
-    obtineVolume();
+    obtineAnunturi();
   };
 
   useEffect(() => {
-    obtineVolume();
+    obtineAnunturi();
   }, []);
 
   return (
@@ -108,7 +108,7 @@ export default function VolumeSettings() {
               flex="1"
               textAlign="center"
             >
-              Editare Volume
+              Editare Anunturi
             </Box>
             <AccordionIcon />
           </AccordionButton>
@@ -127,10 +127,10 @@ export default function VolumeSettings() {
                 fontSize={"xl"}
                 fontWeight={"bold"}
               >
-                Lista Volume
+                Lista Anunturi
               </Text>
-              {volume?.length !== 0 && volume ? (
-                volume.map((volum) => (
+              {anunturi && anunturi?.length !== 0 ? (
+                anunturi.map((anunt) => (
                   <Flex
                     justify={"space-between"}
                     align={["left", "left", "left", "center"]}
@@ -140,14 +140,14 @@ export default function VolumeSettings() {
                     borderBottom={"1px solid lightgray"}
                     gap={5}
                     color={"black"}
-                    key={volum.id}
+                    key={anunt.id}
                   >
                     <Stack>
                       <Text>
-                        <b>Titlu:</b> {volum.titlu}
+                        <b>Titlu:</b> {anunt.titlu}
                       </Text>
                       <Text>
-                        <b>Link:</b> {volum.link}
+                        <b>Continut:</b> {anunt.continut}
                       </Text>
                     </Stack>
                     <Flex
@@ -159,11 +159,11 @@ export default function VolumeSettings() {
                         color={"red"}
                         onClick={() =>
                           isMaster
-                            ? stergeVolum(volum.id)
-                            : alert("Masterkey Gresit")
+                            ? stergeAnunt(anunt.id)
+                            : alert("Masterkey gresit")
                         }
                       >
-                        {currentLoadingThrashCan == volum.id ? (
+                        {currentLoadingThrashCan == anunt.id ? (
                           <Spinner />
                         ) : (
                           <FiTrash />
@@ -174,7 +174,7 @@ export default function VolumeSettings() {
                 ))
               ) : (
                 <Text color={"black"}>
-                  Momentan nu exista niciun volum in baza de date.
+                  Momentan nu exista niciun anunt in baza de date.
                 </Text>
               )}
               <Text
@@ -182,21 +182,21 @@ export default function VolumeSettings() {
                 color={"black"}
                 fontWeight={"bold"}
               >
-                Adauga Volum Nou
+                Adauga Anunt Nou
               </Text>
               <HStack
-                flexDir={["column", "column", "column", "row"]}
+                flexDir={["column"]}
                 color={"black"}
               >
                 <Input
-                  value={titluVolumNou}
-                  onChange={(e) => setTitluVolumNou(e.target.value)}
-                  placeholder="nume volum"
+                  value={titluAnuntNou}
+                  onChange={(e) => setTitluAnuntNou(e.target.value)}
+                  placeholder="nume anunt"
                 />
-                <Input
-                  value={linkVolumNou}
-                  onChange={(e) => setLinkVolumNou(e.target.value)}
-                  placeholder="link volum"
+                <Textarea
+                  value={continutAnuntNou}
+                  onChange={(e) => setContinutAnuntNou(e.target.value)}
+                  placeholder="continut anunt"
                 />
                 <Box
                   rounded={"xl"}
@@ -214,7 +214,7 @@ export default function VolumeSettings() {
                       bg={"none"}
                       _hover={{ bg: "none" }}
                       onClick={() =>
-                        isMaster ? adaugaVolum() : alert("Masterkey Gresit")
+                        isMaster ? adaugaAnunt() : alert("Masterkey gresit")
                       }
                     >
                       Adauga

@@ -15,3 +15,9 @@ export interface Premiu {
   id: string;
   link: string;
 }
+
+export interface Anunt {
+  titlu: string;
+  id: string;
+  continut: string;
+}

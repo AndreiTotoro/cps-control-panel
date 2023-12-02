@@ -25,6 +25,7 @@ import VolumeSettings from "@/components/VolumeSettings";
 import RegulamenteSettings from "@/components/RegulamenteSettings";
 import useCPSStore from "@/store/useCPSStore";
 import PremiiSettings from "@/components/PremiiSettings";
+import AnunturiSettings from "@/components/AnunturiSettings";
 
 export default function Home() {
   const { isMaster, setIsMaster } = useCPSStore();
@@ -47,9 +48,9 @@ export default function Home() {
           mb={4}
         >
           {isMaster ? (
-            <Text color={"green"}>Masterkey corect</Text>
+            <Text color={"green"}>Masterkey Corect</Text>
           ) : (
-            <Text color={"red"}>Masterkey incorect</Text>
+            <Text color={"red"}>Masterkey Gresit</Text>
           )}
           <Input
             bg={isMaster ? "green" : "white"}
@@ -62,6 +63,7 @@ export default function Home() {
           <RegulamenteSettings />
           <VolumeSettings />
           <PremiiSettings />
+          <AnunturiSettings />
         </VStack>
       </Center>
     </Layout>

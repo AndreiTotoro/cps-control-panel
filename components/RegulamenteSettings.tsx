@@ -119,6 +119,7 @@ export default function RegulamenteSettings() {
         <AccordionPanel pb={4}>
           <VStack>
             <Stack
+              w={["100%", "100%", "100%", "70%"]}
               bg={"white"}
               p={5}
               rounded={"lg"}
@@ -162,7 +163,7 @@ export default function RegulamenteSettings() {
                         onClick={() =>
                           isMaster
                             ? stergeRegulament(regulament.id)
-                            : alert("Masterkey incorect")
+                            : alert("Masterkey Gresit")
                         }
                       >
                         {currentLoadingThrashCan == regulament.id ? (
@@ -218,7 +219,7 @@ export default function RegulamenteSettings() {
                       onClick={() =>
                         isMaster
                           ? adaugaRegulament()
-                          : alert("Masterkey incorect")
+                          : alert("Masterkey Gresit")
                       }
                     >
                       Adauga

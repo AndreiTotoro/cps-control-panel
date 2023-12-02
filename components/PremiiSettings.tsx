@@ -118,6 +118,7 @@ export default function PremiiSettings() {
             <Stack
               bg={"white"}
               p={5}
+              w={["100%", "100%", "100%", "70%"]}
               rounded={"lg"}
             >
               <Text
@@ -159,7 +160,7 @@ export default function PremiiSettings() {
                         onClick={() =>
                           isMaster
                             ? stergePremiu(premiu.id)
-                            : alert("Masterkey incorect")
+                            : alert("Masterkey Gresit")
                         }
                       >
                         {currentLoadingThrashCan == premiu.id ? (
@@ -213,7 +214,7 @@ export default function PremiiSettings() {
                       bg={"none"}
                       _hover={{ bg: "none" }}
                       onClick={() =>
-                        isMaster ? adaugaPremiu() : alert("Masterkey incorect")
+                        isMaster ? adaugaPremiu() : alert("Masterkey Gresit")
                       }
                     >
                       Adauga
