@@ -29,11 +29,7 @@ export default function VolumeSettings() {
     useState<string>("");
 
   const obtineVolume = async () => {
-    const volume = await axios.get<Volum[]>("/api/get/volume", {
-      headers: {
-        "security-phrase": process.env.NEXT_PUBLIC_SECURITY_PHRASE,
-      },
-    });
+    const volume = await axios.get<Volum[]>("/api/get/volume");
     setVolume(volume.data);
   };
 
@@ -93,136 +89,134 @@ export default function VolumeSettings() {
   }, []);
 
   return (
-    <Center>
-      <Accordion
-        border={"3px solid black"}
-        width={["100%", "100%", "100%", "70%"]}
-        bg={"white"}
-        color={"black"}
-        allowToggle
-      >
-        <AccordionItem>
-          <h2>
-            <AccordionButton>
-              <Box
+    <Accordion
+      w={"100%"}
+      border={"3px solid black"}
+      bg={"white"}
+      color={"black"}
+      allowToggle
+    >
+      <AccordionItem>
+        <h2>
+          <AccordionButton>
+            <Box
+              fontSize={"xl"}
+              fontWeight={"bold"}
+              as="span"
+              flex="1"
+              textAlign="center"
+            >
+              Editare Volume
+            </Box>
+            <AccordionIcon />
+          </AccordionButton>
+        </h2>
+        <AccordionPanel pb={4}>
+          <VStack>
+            <Stack
+              bg={"white"}
+              p={5}
+              rounded={"lg"}
+            >
+              <Text
+                textAlign={"center"}
+                color={"#fc5310"}
                 fontSize={"xl"}
                 fontWeight={"bold"}
-                as="span"
-                flex="1"
-                textAlign="center"
               >
-                Editare Volume
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-          </h2>
-          <AccordionPanel pb={4}>
-            <VStack>
-              <Stack
-                bg={"white"}
-                p={5}
-                rounded={"lg"}
-              >
-                <Text
-                  textAlign={"center"}
-                  color={"#fc5310"}
-                  fontSize={"xl"}
-                  fontWeight={"bold"}
-                >
-                  Lista Volume
-                </Text>
-                {volume ? (
-                  volume.map((volum) => (
-                    <Flex
-                      justify={"space-between"}
-                      align={["left", "left", "left", "center"]}
-                      flexDir={["column", "column", "column", "row"]}
-                      p={4}
-                      fontSize={"sm"}
-                      borderBottom={"1px solid lightgray"}
-                      gap={5}
-                      color={"black"}
-                      key={volum.id}
-                    >
-                      <Stack>
-                        <Text>
-                          <b>Titlu:</b> {volum.titlu}
-                        </Text>
-                        <Text>
-                          <b>Link:</b> {volum.link}
-                        </Text>
-                      </Stack>
-                      <Flex
-                        align={"center"}
-                        gap={4}
-                      >
-                        <Box
-                          _hover={{ cursor: "pointer" }}
-                          color={"red"}
-                          onClick={() => stergeVolum(volum.id)}
-                        >
-                          {currentLoadingThrashCan == volum.id ? (
-                            <Spinner />
-                          ) : (
-                            <FiTrash />
-                          )}
-                        </Box>
-                      </Flex>
-                    </Flex>
-                  ))
-                ) : (
-                  <Text color={"black"}>
-                    Momentan nu exista niciun volum in baza de date.
-                  </Text>
-                )}
-                <Text
-                  pt={3}
-                  color={"black"}
-                  fontWeight={"bold"}
-                >
-                  Adauga Volum Nou
-                </Text>
-                <HStack
-                  flexDir={["column", "column", "column", "row"]}
-                  color={"black"}
-                >
-                  <Input
-                    value={titluVolumNou}
-                    onChange={(e) => setTitluVolumNou(e.target.value)}
-                    placeholder="nume volum"
-                  />
-                  <Input
-                    value={linkVolumNou}
-                    onChange={(e) => setLinkVolumNou(e.target.value)}
-                    placeholder="link volum"
-                  />
-                  <Box
-                    rounded={"xl"}
-                    textAlign={"center"}
-                    bg={"lightgray"}
-                    width={["100%", "100%", "100%", "20%"]}
-                    height={10}
+                Lista Volume
+              </Text>
+              {volume ? (
+                volume.map((volum) => (
+                  <Flex
+                    justify={"space-between"}
+                    align={["left", "left", "left", "center"]}
+                    flexDir={["column", "column", "column", "row"]}
+                    p={4}
+                    fontSize={"sm"}
+                    borderBottom={"1px solid lightgray"}
+                    gap={5}
+                    color={"black"}
+                    key={volum.id}
                   >
-                    {isAdding ? (
-                      <Center height={"100%"}>
-                        <Spinner />
-                      </Center>
-                    ) : (
-                      <Button
-                        bg={"none"}
-                        _hover={{ bg: "none" }}
-                        onClick={() => adaugaVolum()}
+                    <Stack>
+                      <Text>
+                        <b>Titlu:</b> {volum.titlu}
+                      </Text>
+                      <Text>
+                        <b>Link:</b> {volum.link}
+                      </Text>
+                    </Stack>
+                    <Flex
+                      align={"center"}
+                      gap={4}
+                    >
+                      <Box
+                        _hover={{ cursor: "pointer" }}
+                        color={"red"}
+                        onClick={() => stergeVolum(volum.id)}
                       >
-                        Adauga
-                      </Button>
-                    )}
-                  </Box>
-                </HStack>
-              </Stack>
-            </VStack>
-          </AccordionPanel>
-        </AccordionItem>
-      </Accordion>
-    </Center>
+                        {currentLoadingThrashCan == volum.id ? (
+                          <Spinner />
+                        ) : (
+                          <FiTrash />
+                        )}
+                      </Box>
+                    </Flex>
+                  </Flex>
+                ))
+              ) : (
+                <Text color={"black"}>
+                  Momentan nu exista niciun volum in baza de date.
+                </Text>
+              )}
+              <Text
+                pt={3}
+                color={"black"}
+                fontWeight={"bold"}
+              >
+                Adauga Volum Nou
+              </Text>
+              <HStack
+                flexDir={["column", "column", "column", "row"]}
+                color={"black"}
+              >
+                <Input
+                  value={titluVolumNou}
+                  onChange={(e) => setTitluVolumNou(e.target.value)}
+                  placeholder="nume volum"
+                />
+                <Input
+                  value={linkVolumNou}
+                  onChange={(e) => setLinkVolumNou(e.target.value)}
+                  placeholder="link volum"
+                />
+                <Box
+                  rounded={"xl"}
+                  textAlign={"center"}
+                  bg={"lightgray"}
+                  width={["100%", "100%", "100%", "20%"]}
+                  height={10}
+                >
+                  {isAdding ? (
+                    <Center height={"100%"}>
+                      <Spinner />
+                    </Center>
+                  ) : (
+                    <Button
+                      bg={"none"}
+                      _hover={{ bg: "none" }}
+                      onClick={() => adaugaVolum()}
+                    >
+                      Adauga
+                    </Button>
+                  )}
+                </Box>
+              </HStack>
+            </Stack>
+          </VStack>
+        </AccordionPanel>
+      </AccordionItem>
+    </Accordion>
   );
 }

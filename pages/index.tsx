@@ -23,17 +23,45 @@ import { Volum } from "@/types";
 import { FiTrash } from "react-icons/fi";
 import VolumeSettings from "@/components/VolumeSettings";
 import RegulamenteSettings from "@/components/RegulamenteSettings";
+import useCPSStore from "@/store/useCPSStore";
 
 export default function Home() {
+  const { isMaster, setIsMaster } = useCPSStore();
+  const [masterkey, setMasterkey] = useState<string>("");
+
+  useEffect(() => {
+    if (masterkey === process.env.NEXT_PUBLIC_MASTERKEY) {
+      setIsMaster(true);
+    } else {
+      setIsMaster(false);
+    }
+  }, [masterkey]);
+
   return (
     <Layout>
-      <Stack
-        spacing={4}
-        mb={4}
-      >
-        <RegulamenteSettings />
-        <VolumeSettings />
-      </Stack>
+      <Center>
+        <VStack
+          width={["100%", "100%", "100%", "70%"]}
+          spacing={4}
+          mb={4}
+        >
+          {isMaster ? (
+            <Text color={"green"}>Masterkey corect</Text>
+          ) : (
+            <Text color={"red"}>Masterkey incorect</Text>
+          )}
+          <Input
+            bg={isMaster ? "green" : "white"}
+            value={masterkey}
+            onChange={(e) => setMasterkey(e.target.value)}
+            color={"black"}
+            placeholder="masterkey"
+            type="password"
+          />
+          <RegulamenteSettings />
+          <VolumeSettings />
+        </VStack>
+      </Center>
     </Layout>
   );
 }

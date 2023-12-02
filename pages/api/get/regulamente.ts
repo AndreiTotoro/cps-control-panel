@@ -10,14 +10,8 @@ export default async function handler(
   res: NextApiResponse<Regulament[] | { message: string }>
 ) {
   try {
-    if (
-      req.headers["security-phrase"] === process.env.NEXT_PUBLIC_SECURITY_PHRASE
-    ) {
-      const regulamente: Regulament[] = await prisma.regulamente.findMany({});
-      res.status(200).json(regulamente);
-    } else {
-      res.status(401).json({ message: "Unauthorized" });
-    }
+    const regulamente: Regulament[] = await prisma.regulamente.findMany({});
+    res.status(200).json(regulamente);
   } catch (error: any) {
     res.status(500).json(error);
   } finally {

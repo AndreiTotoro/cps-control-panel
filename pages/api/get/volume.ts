@@ -10,14 +10,8 @@ export default async function handler(
   res: NextApiResponse<Volum[] | { message: string }>
 ) {
   try {
-    if (
-      req.headers["security-phrase"] === process.env.NEXT_PUBLIC_SECURITY_PHRASE
-    ) {
-      const volume: Volum[] = await prisma.volume.findMany({});
-      res.status(200).json(volume);
-    } else {
-      res.status(401).json({ message: "Unauthorized" });
-    }
+    const volume: Volum[] = await prisma.volume.findMany({});
+    res.status(200).json(volume);
   } catch (error: any) {
     res.status(500).json(error);
   } finally {

@@ -29,11 +29,7 @@ export default function RegulamenteSettings() {
     useState<string>("");
 
   const obtineRegulamente = async () => {
-    const regulament = await axios.get<Regulament[]>("/api/get/regulamente", {
-      headers: {
-        "security-phrase": process.env.NEXT_PUBLIC_SECURITY_PHRASE,
-      },
-    });
+    const regulament = await axios.get<Regulament[]>("/api/get/regulamente");
     setRegulamente(regulament.data);
   };
 
@@ -96,136 +92,134 @@ export default function RegulamenteSettings() {
   }, []);
 
   return (
-    <Center>
-      <Accordion
-        border={"3px solid black"}
-        width={["100%", "100%", "100%", "70%"]}
-        bg={"white"}
-        color={"black"}
-        allowToggle
-      >
-        <AccordionItem>
-          <h2>
-            <AccordionButton>
-              <Box
+    <Accordion
+      w={"100%"}
+      border={"3px solid black"}
+      bg={"white"}
+      color={"black"}
+      allowToggle
+    >
+      <AccordionItem>
+        <h2>
+          <AccordionButton>
+            <Box
+              fontSize={"xl"}
+              fontWeight={"bold"}
+              as="span"
+              flex="1"
+              textAlign="center"
+            >
+              Editare Regulamente
+            </Box>
+            <AccordionIcon />
+          </AccordionButton>
+        </h2>
+        <AccordionPanel pb={4}>
+          <VStack>
+            <Stack
+              bg={"white"}
+              p={5}
+              rounded={"lg"}
+            >
+              <Text
+                textAlign={"center"}
+                color={"#fc5310"}
                 fontSize={"xl"}
                 fontWeight={"bold"}
-                as="span"
-                flex="1"
-                textAlign="center"
               >
-                Editare Regulamente
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-          </h2>
-          <AccordionPanel pb={4}>
-            <VStack>
-              <Stack
-                bg={"white"}
-                p={5}
-                rounded={"lg"}
-              >
-                <Text
-                  textAlign={"center"}
-                  color={"#fc5310"}
-                  fontSize={"xl"}
-                  fontWeight={"bold"}
-                >
-                  Lista Regulamente
-                </Text>
-                {regulamente?.length !== 0 && regulamente ? (
-                  regulamente.map((regulament) => (
-                    <Flex
-                      justify={"space-between"}
-                      align={["left", "left", "left", "center"]}
-                      flexDir={["column", "column", "column", "row"]}
-                      p={4}
-                      fontSize={"sm"}
-                      borderBottom={"1px solid lightgray"}
-                      gap={5}
-                      color={"black"}
-                      key={regulament.id}
-                    >
-                      <Stack>
-                        <Text>
-                          <b>Titlu:</b> {regulament.titlu}
-                        </Text>
-                        <Text>
-                          <b>Link:</b> {regulament.link}
-                        </Text>
-                      </Stack>
-                      <Flex
-                        align={"center"}
-                        gap={4}
-                      >
-                        <Box
-                          _hover={{ cursor: "pointer" }}
-                          color={"red"}
-                          onClick={() => stergeRegulament(regulament.id)}
-                        >
-                          {currentLoadingThrashCan == regulament.id ? (
-                            <Spinner />
-                          ) : (
-                            <FiTrash />
-                          )}
-                        </Box>
-                      </Flex>
-                    </Flex>
-                  ))
-                ) : (
-                  <Text color={"black"}>
-                    Momentan nu exista niciun regulament in baza de date.
-                  </Text>
-                )}
-                <Text
-                  pt={3}
-                  color={"black"}
-                  fontWeight={"bold"}
-                >
-                  Adauga Regulament Nou
-                </Text>
-                <HStack
-                  flexDir={["column", "column", "column", "row"]}
-                  color={"black"}
-                >
-                  <Input
-                    value={titluRegulamentNou}
-                    onChange={(e) => setTitluRegulamentNou(e.target.value)}
-                    placeholder="nume regulament"
-                  />
-                  <Input
-                    value={linkRegulamentNou}
-                    onChange={(e) => setLinkRegulamentNou(e.target.value)}
-                    placeholder="link regulament"
-                  />
-                  <Box
-                    rounded={"xl"}
-                    textAlign={"center"}
-                    bg={"lightgray"}
-                    width={["100%", "100%", "100%", "20%"]}
-                    height={10}
+                Lista Regulamente
+              </Text>
+              {regulamente?.length !== 0 && regulamente ? (
+                regulamente.map((regulament) => (
+                  <Flex
+                    justify={"space-between"}
+                    align={["left", "left", "left", "center"]}
+                    flexDir={["column", "column", "column", "row"]}
+                    p={4}
+                    fontSize={"sm"}
+                    borderBottom={"1px solid lightgray"}
+                    gap={5}
+                    color={"black"}
+                    key={regulament.id}
                   >
-                    {isAdding ? (
-                      <Center height={"100%"}>
-                        <Spinner />
-                      </Center>
-                    ) : (
-                      <Button
-                        bg={"none"}
-                        _hover={{ bg: "none" }}
-                        onClick={() => adaugaRegulament()}
+                    <Stack>
+                      <Text>
+                        <b>Titlu:</b> {regulament.titlu}
+                      </Text>
+                      <Text>
+                        <b>Link:</b> {regulament.link}
+                      </Text>
+                    </Stack>
+                    <Flex
+                      align={"center"}
+                      gap={4}
+                    >
+                      <Box
+                        _hover={{ cursor: "pointer" }}
+                        color={"red"}
+                        onClick={() => stergeRegulament(regulament.id)}
                       >
-                        Adauga
-                      </Button>
-                    )}
-                  </Box>
-                </HStack>
-              </Stack>
-            </VStack>
-          </AccordionPanel>
-        </AccordionItem>
-      </Accordion>
-    </Center>
+                        {currentLoadingThrashCan == regulament.id ? (
+                          <Spinner />
+                        ) : (
+                          <FiTrash />
+                        )}
+                      </Box>
+                    </Flex>
+                  </Flex>
+                ))
+              ) : (
+                <Text color={"black"}>
+                  Momentan nu exista niciun regulament in baza de date.
+                </Text>
+              )}
+              <Text
+                pt={3}
+                color={"black"}
+                fontWeight={"bold"}
+              >
+                Adauga Regulament Nou
+              </Text>
+              <HStack
+                flexDir={["column", "column", "column", "row"]}
+                color={"black"}
+              >
+                <Input
+                  value={titluRegulamentNou}
+                  onChange={(e) => setTitluRegulamentNou(e.target.value)}
+                  placeholder="nume regulament"
+                />
+                <Input
+                  value={linkRegulamentNou}
+                  onChange={(e) => setLinkRegulamentNou(e.target.value)}
+                  placeholder="link regulament"
+                />
+                <Box
+                  rounded={"xl"}
+                  textAlign={"center"}
+                  bg={"lightgray"}
+                  width={["100%", "100%", "100%", "20%"]}
+                  height={10}
+                >
+                  {isAdding ? (
+                    <Center height={"100%"}>
+                      <Spinner />
+                    </Center>
+                  ) : (
+                    <Button
+                      bg={"none"}
+                      _hover={{ bg: "none" }}
+                      onClick={() => adaugaRegulament()}
+                    >
+                      Adauga
+                    </Button>
+                  )}
+                </Box>
+              </HStack>
+            </Stack>
+          </VStack>
+        </AccordionPanel>
+      </AccordionItem>
+    </Accordion>
   );
 }
