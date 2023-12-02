@@ -22,7 +22,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         px={[5, 5, 5, "2em"]}
       >
         <Text
-          fontSize={"xl"}
+          textShadow={"0px 0px 10px rgba(0,0,0,0.5)"}
+          fontSize={"2xl"}
+          textDecoration={"underline"}
           pt={10}
           fontWeight={"bold"}
         >

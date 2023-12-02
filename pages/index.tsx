@@ -57,7 +57,7 @@ export default function Home() {
             value={masterkey}
             onChange={(e) => setMasterkey(e.target.value)}
             color={"black"}
-            placeholder="masterkey"
+            placeholder="masterkey🔑"
             type="password"
           />
           <RegulamenteSettings />
