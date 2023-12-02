@@ -12,7 +12,7 @@ export default async function handler(
   try {
     const volume: Volum[] = await prisma.volume.findMany({
       orderBy: {
-        createdAt: "asc",
+        createdAt: "desc",
       },
     });
     res.status(200).json(volume);

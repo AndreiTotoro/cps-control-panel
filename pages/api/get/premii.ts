@@ -12,7 +12,7 @@ export default async function handler(
   try {
     const premii: Premiu[] = await prisma.premii.findMany({
       orderBy: {
-        createdAt: "asc",
+        createdAt: "desc",
       },
     });
     res.status(200).json(premii);

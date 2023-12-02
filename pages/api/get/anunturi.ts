@@ -12,7 +12,7 @@ export default async function handler(
   try {
     const anunturi: Anunt[] = await prisma.anunturi.findMany({
       orderBy: {
-        createdAt: "asc",
+        createdAt: "desc",
       },
     });
     res.status(200).json(anunturi);
