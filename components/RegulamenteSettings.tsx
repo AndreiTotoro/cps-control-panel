@@ -98,6 +98,7 @@ export default function RegulamenteSettings() {
   return (
     <Center>
       <Accordion
+        border={"3px solid black"}
         width={["100%", "100%", "100%", "70%"]}
         bg={"white"}
         color={"black"}
@@ -127,7 +128,7 @@ export default function RegulamenteSettings() {
               >
                 <Text
                   textAlign={"center"}
-                  color={"black"}
+                  color={"#fc5310"}
                   fontSize={"xl"}
                   fontWeight={"bold"}
                 >
