@@ -22,11 +22,18 @@ import axios from "axios";
 import { Volum } from "@/types";
 import { FiTrash } from "react-icons/fi";
 import VolumeSettings from "@/components/VolumeSettings";
+import RegulamenteSettings from "@/components/RegulamenteSettings";
 
 export default function Home() {
   return (
     <Layout>
-      <VolumeSettings />
+      <Stack
+        spacing={4}
+        mb={4}
+      >
+        <RegulamenteSettings />
+        <VolumeSettings />
+      </Stack>
     </Layout>
   );
 }

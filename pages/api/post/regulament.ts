@@ -1,20 +1,24 @@
-import { Volum } from "@/types";
+import { Regulament, Volum } from "@/types";
 import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import Error from "next/error";
 
 const prisma = new PrismaClient();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Volum[] | { message: string }>
+  res: NextApiResponse<Regulament | { message: string }>
 ) {
   try {
     if (
       req.headers["security-phrase"] === process.env.NEXT_PUBLIC_SECURITY_PHRASE
     ) {
-      const volume: Volum[] = await prisma.volume.findMany({});
-      res.status(200).json(volume);
+      const dateRegulament: Regulament = req.body;
+
+      const regulament = await prisma.regulamente.create({
+        data: dateRegulament,
+      });
+
+      res.status(200).json(regulament);
     } else {
       res.status(401).json({ message: "Unauthorized" });
     }

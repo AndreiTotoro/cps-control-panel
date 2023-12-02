@@ -1,4 +1,4 @@
-import { Volum } from "@/types";
+import { Regulament, Volum } from "@/types";
 import {
   Accordion,
   AccordionButton,
@@ -20,30 +20,30 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FiTrash } from "react-icons/fi";
 
-export default function VolumeSettings() {
-  const [volume, setVolume] = useState<Volum[] | "">("");
-  const [titluVolumNou, setTitluVolumNou] = useState<string>("");
-  const [linkVolumNou, setLinkVolumNou] = useState<string>("");
+export default function RegulamenteSettings() {
+  const [regulamente, setRegulamente] = useState<Regulament[] | null>(null);
+  const [titluRegulamentNou, setTitluRegulamentNou] = useState<string>("");
+  const [linkRegulamentNou, setLinkRegulamentNou] = useState<string>("");
   const [isAdding, setIsAdding] = useState<boolean>(false);
   const [currentLoadingThrashCan, setCurrentLoadingThrashCan] =
     useState<string>("");
 
-  const obtineVolume = async () => {
-    const volume = await axios.get<Volum[]>("/api/get/volume", {
+  const obtineRegulamente = async () => {
+    const regulament = await axios.get<Regulament[]>("/api/get/regulamente", {
       headers: {
         "security-phrase": process.env.NEXT_PUBLIC_SECURITY_PHRASE,
       },
     });
-    setVolume(volume.data);
+    setRegulamente(regulament.data);
   };
 
-  const adaugaVolum = async () => {
+  const adaugaRegulament = async () => {
     setIsAdding(true);
-    const volum = await axios.post<Volum>(
-      "/api/post/volum",
+    const regulament = await axios.post<Regulament>(
+      "/api/post/regulament",
       {
-        titlu: titluVolumNou,
-        link: linkVolumNou,
+        titlu: titluRegulamentNou,
+        link: linkRegulamentNou,
       },
       {
         headers: {
@@ -51,29 +51,32 @@ export default function VolumeSettings() {
         },
       }
     );
-    setTitluVolumNou("");
-    setLinkVolumNou("");
-    obtineVolume();
+    setTitluRegulamentNou("");
+    setLinkRegulamentNou("");
+    obtineRegulamente();
     setIsAdding(false);
   };
 
-  const stergeVolum = async (id: string) => {
+  const stergeRegulament = async (id: string) => {
     setCurrentLoadingThrashCan(id);
-    const volum = await axios.delete<Volum>("/api/delete/volum", {
-      data: {
-        id,
-      },
-      headers: {
-        "security-phrase": process.env.NEXT_PUBLIC_SECURITY_PHRASE,
-      },
-    });
-    obtineVolume();
+    const regulament = await axios.delete<Regulament>(
+      "/api/delete/regulament",
+      {
+        data: {
+          id,
+        },
+        headers: {
+          "security-phrase": process.env.NEXT_PUBLIC_SECURITY_PHRASE,
+        },
+      }
+    );
+    obtineRegulamente();
     setCurrentLoadingThrashCan("");
   };
 
-  const editeazaVolum = async (id: string) => {
-    const volumEditat = await axios.put<Volum>(
-      "/api/put/volum",
+  const editeazaRegulament = async (id: string) => {
+    const regulamentEditat = await axios.put<Regulament>(
+      "/api/put/regulament",
       {
         titlu: "hi",
         link: "bye",
@@ -85,11 +88,11 @@ export default function VolumeSettings() {
         },
       }
     );
-    obtineVolume();
+    obtineRegulamente();
   };
 
   useEffect(() => {
-    obtineVolume();
+    obtineRegulamente();
   }, []);
 
   return (
@@ -110,7 +113,7 @@ export default function VolumeSettings() {
                 flex="1"
                 textAlign="center"
               >
-                Editare Volume
+                Editare Regulamente
               </Box>
               <AccordionIcon />
             </AccordionButton>
@@ -128,10 +131,10 @@ export default function VolumeSettings() {
                   fontSize={"xl"}
                   fontWeight={"bold"}
                 >
-                  Lista Volume
+                  Lista Regulamente
                 </Text>
-                {volume ? (
-                  volume.map((volum) => (
+                {regulamente?.length !== 0 && regulamente ? (
+                  regulamente.map((regulament) => (
                     <Flex
                       justify={"space-between"}
                       align={["left", "left", "left", "center"]}
@@ -141,14 +144,14 @@ export default function VolumeSettings() {
                       borderBottom={"1px solid lightgray"}
                       gap={5}
                       color={"black"}
-                      key={volum.id}
+                      key={regulament.id}
                     >
                       <Stack>
                         <Text>
-                          <b>Titlu:</b> {volum.titlu}
+                          <b>Titlu:</b> {regulament.titlu}
                         </Text>
                         <Text>
-                          <b>Link:</b> {volum.link}
+                          <b>Link:</b> {regulament.link}
                         </Text>
                       </Stack>
                       <Flex
@@ -158,9 +161,9 @@ export default function VolumeSettings() {
                         <Box
                           _hover={{ cursor: "pointer" }}
                           color={"red"}
-                          onClick={() => stergeVolum(volum.id)}
+                          onClick={() => stergeRegulament(regulament.id)}
                         >
-                          {currentLoadingThrashCan == volum.id ? (
+                          {currentLoadingThrashCan == regulament.id ? (
                             <Spinner />
                           ) : (
                             <FiTrash />
@@ -171,7 +174,7 @@ export default function VolumeSettings() {
                   ))
                 ) : (
                   <Text color={"black"}>
-                    Momentan nu exista niciun volum in baza de date.
+                    Momentan nu exista niciun regulament in baza de date.
                   </Text>
                 )}
                 <Text
@@ -179,21 +182,21 @@ export default function VolumeSettings() {
                   color={"black"}
                   fontWeight={"bold"}
                 >
-                  Adauga Volum Nou
+                  Adauga Regulament Nou
                 </Text>
                 <HStack
                   flexDir={["column", "column", "column", "row"]}
                   color={"black"}
                 >
                   <Input
-                    value={titluVolumNou}
-                    onChange={(e) => setTitluVolumNou(e.target.value)}
-                    placeholder="nume volum"
+                    value={titluRegulamentNou}
+                    onChange={(e) => setTitluRegulamentNou(e.target.value)}
+                    placeholder="nume regulament"
                   />
                   <Input
-                    value={linkVolumNou}
-                    onChange={(e) => setLinkVolumNou(e.target.value)}
-                    placeholder="link volum"
+                    value={linkRegulamentNou}
+                    onChange={(e) => setLinkRegulamentNou(e.target.value)}
+                    placeholder="link regulament"
                   />
                   <Box
                     rounded={"xl"}
@@ -210,7 +213,7 @@ export default function VolumeSettings() {
                       <Button
                         bg={"none"}
                         _hover={{ bg: "none" }}
-                        onClick={() => adaugaVolum()}
+                        onClick={() => adaugaRegulament()}
                       >
                         Adauga
                       </Button>
