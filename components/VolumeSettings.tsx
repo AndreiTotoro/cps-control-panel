@@ -128,7 +128,7 @@ export default function VolumeSettings() {
               >
                 Lista Volume
               </Text>
-              {volume ? (
+              {volume?.length !== 0 && volume ? (
                 volume.map((volum) => (
                   <Flex
                     justify={"space-between"}

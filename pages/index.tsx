@@ -24,6 +24,7 @@ import { FiTrash } from "react-icons/fi";
 import VolumeSettings from "@/components/VolumeSettings";
 import RegulamenteSettings from "@/components/RegulamenteSettings";
 import useCPSStore from "@/store/useCPSStore";
+import PremiiSettings from "@/components/PremiiSettings";
 
 export default function Home() {
   const { isMaster, setIsMaster } = useCPSStore();
@@ -60,6 +61,7 @@ export default function Home() {
           />
           <RegulamenteSettings />
           <VolumeSettings />
+          <PremiiSettings />
         </VStack>
       </Center>
     </Layout>

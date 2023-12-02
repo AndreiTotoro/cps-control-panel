@@ -1,5 +1,5 @@
 import useCPSStore from "@/store/useCPSStore";
-import { Regulament, Volum } from "@/types";
+import { Premiu, Volum } from "@/types";
 import {
   Accordion,
   AccordionButton,
@@ -21,27 +21,27 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FiTrash } from "react-icons/fi";
 
-export default function RegulamenteSettings() {
+export default function PremiiSettings() {
   const { isMaster } = useCPSStore();
-  const [regulamente, setRegulamente] = useState<Regulament[] | null>(null);
-  const [titluRegulamentNou, setTitluRegulamentNou] = useState<string>("");
-  const [linkRegulamentNou, setLinkRegulamentNou] = useState<string>("");
+  const [premii, setPremii] = useState<Premiu[] | "">("");
+  const [titluPremiuNou, setTitluPremiuNou] = useState<string>("");
+  const [linkPremiuNou, setLinkPremiuNou] = useState<string>("");
   const [isAdding, setIsAdding] = useState<boolean>(false);
   const [currentLoadingThrashCan, setCurrentLoadingThrashCan] =
     useState<string>("");
 
-  const obtineRegulamente = async () => {
-    const regulament = await axios.get<Regulament[]>("/api/get/regulamente");
-    setRegulamente(regulament.data);
+  const obtinePremii = async () => {
+    const premii = await axios.get<Volum[]>("/api/get/premii");
+    setPremii(premii.data);
   };
 
-  const adaugaRegulament = async () => {
+  const adaugaPremiu = async () => {
     setIsAdding(true);
-    const regulament = await axios.post<Regulament>(
-      "/api/post/regulament",
+    const premiu = await axios.post<Premiu>(
+      "/api/post/premiu",
       {
-        titlu: titluRegulamentNou,
-        link: linkRegulamentNou,
+        titlu: titluPremiuNou,
+        link: linkPremiuNou,
       },
       {
         headers: {
@@ -49,32 +49,29 @@ export default function RegulamenteSettings() {
         },
       }
     );
-    setTitluRegulamentNou("");
-    setLinkRegulamentNou("");
-    obtineRegulamente();
+    setTitluPremiuNou("");
+    setLinkPremiuNou("");
+    obtinePremii();
     setIsAdding(false);
   };
 
-  const stergeRegulament = async (id: string) => {
+  const stergePremiu = async (id: string) => {
     setCurrentLoadingThrashCan(id);
-    const regulament = await axios.delete<Regulament>(
-      "/api/delete/regulament",
-      {
-        data: {
-          id,
-        },
-        headers: {
-          "security-phrase": process.env.NEXT_PUBLIC_SECURITY_PHRASE,
-        },
-      }
-    );
-    obtineRegulamente();
+    const premiu = await axios.delete<Premiu>("/api/delete/premiu", {
+      data: {
+        id,
+      },
+      headers: {
+        "security-phrase": process.env.NEXT_PUBLIC_SECURITY_PHRASE,
+      },
+    });
+    obtinePremii();
     setCurrentLoadingThrashCan("");
   };
 
-  const editeazaRegulament = async (id: string) => {
-    const regulamentEditat = await axios.put<Regulament>(
-      "/api/put/regulament",
+  const editeazaPremiu = async (id: string) => {
+    const premiuEditat = await axios.put<Volum>(
+      "/api/put/premiu",
       {
         titlu: "hi",
         link: "bye",
@@ -86,11 +83,11 @@ export default function RegulamenteSettings() {
         },
       }
     );
-    obtineRegulamente();
+    obtinePremii();
   };
 
   useEffect(() => {
-    obtineRegulamente();
+    obtinePremii();
   }, []);
 
   return (
@@ -111,7 +108,7 @@ export default function RegulamenteSettings() {
               flex="1"
               textAlign="center"
             >
-              Editare Regulamente
+              Editare Premii
             </Box>
             <AccordionIcon />
           </AccordionButton>
@@ -129,10 +126,10 @@ export default function RegulamenteSettings() {
                 fontSize={"xl"}
                 fontWeight={"bold"}
               >
-                Lista Regulamente
+                Lista Premii
               </Text>
-              {regulamente?.length !== 0 && regulamente ? (
-                regulamente.map((regulament) => (
+              {premii && premii?.length !== 0 ? (
+                premii.map((premiu) => (
                   <Flex
                     justify={"space-between"}
                     align={["left", "left", "left", "center"]}
@@ -142,14 +139,14 @@ export default function RegulamenteSettings() {
                     borderBottom={"1px solid lightgray"}
                     gap={5}
                     color={"black"}
-                    key={regulament.id}
+                    key={premiu.id}
                   >
                     <Stack>
                       <Text>
-                        <b>Titlu:</b> {regulament.titlu}
+                        <b>Titlu:</b> {premiu.titlu}
                       </Text>
                       <Text>
-                        <b>Link:</b> {regulament.link}
+                        <b>Link:</b> {premiu.link}
                       </Text>
                     </Stack>
                     <Flex
@@ -161,11 +158,11 @@ export default function RegulamenteSettings() {
                         color={"red"}
                         onClick={() =>
                           isMaster
-                            ? stergeRegulament(regulament.id)
+                            ? stergePremiu(premiu.id)
                             : alert("Masterkey incorect")
                         }
                       >
-                        {currentLoadingThrashCan == regulament.id ? (
+                        {currentLoadingThrashCan == premiu.id ? (
                           <Spinner />
                         ) : (
                           <FiTrash />
@@ -176,7 +173,7 @@ export default function RegulamenteSettings() {
                 ))
               ) : (
                 <Text color={"black"}>
-                  Momentan nu exista niciun regulament in baza de date.
+                  Momentan nu exista niciun premiu in baza de date.
                 </Text>
               )}
               <Text
@@ -184,21 +181,21 @@ export default function RegulamenteSettings() {
                 color={"black"}
                 fontWeight={"bold"}
               >
-                Adauga Regulament Nou
+                Adauga Premiu Nou
               </Text>
               <HStack
                 flexDir={["column", "column", "column", "row"]}
                 color={"black"}
               >
                 <Input
-                  value={titluRegulamentNou}
-                  onChange={(e) => setTitluRegulamentNou(e.target.value)}
-                  placeholder="nume regulament"
+                  value={titluPremiuNou}
+                  onChange={(e) => setTitluPremiuNou(e.target.value)}
+                  placeholder="nume premiu"
                 />
                 <Input
-                  value={linkRegulamentNou}
-                  onChange={(e) => setLinkRegulamentNou(e.target.value)}
-                  placeholder="link regulament"
+                  value={linkPremiuNou}
+                  onChange={(e) => setLinkPremiuNou(e.target.value)}
+                  placeholder="link premiu"
                 />
                 <Box
                   rounded={"xl"}
@@ -216,9 +213,7 @@ export default function RegulamenteSettings() {
                       bg={"none"}
                       _hover={{ bg: "none" }}
                       onClick={() =>
-                        isMaster
-                          ? adaugaRegulament()
-                          : alert("Masterkey incorect")
+                        isMaster ? adaugaPremiu() : alert("Masterkey incorect")
                       }
                     >
                       Adauga

@@ -9,3 +9,9 @@ export interface Regulament {
   id: string;
   link: string;
 }
+
+export interface Premiu {
+  titlu: string;
+  id: string;
+  link: string;
+}
