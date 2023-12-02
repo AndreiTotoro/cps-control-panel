@@ -11,22 +11,26 @@ model volume {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   link  String
   titlu String
+  createdAt DateTime @default(now())
 }
 
 model anunturi {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   continut  String
   titlu String
+  createdAt DateTime @default(now())
 }
 
 model premii {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   link  String
   titlu String
+  createdAt DateTime @default(now())
 }
 
 model regulamente {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   link  String
   titlu String
+  createdAt DateTime @default(now())
 }
