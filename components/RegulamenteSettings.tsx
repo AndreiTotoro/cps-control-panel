@@ -190,6 +190,7 @@ export default function RegulamenteSettings() {
                 Adauga Regulament Nou
               </Text>
               <HStack
+                align={"baseline"}
                 flexDir={["column", "column", "column", "row"]}
                 color={"black"}
               >

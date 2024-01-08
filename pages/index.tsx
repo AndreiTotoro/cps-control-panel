@@ -43,18 +43,6 @@ export default function Home() {
   return (
     <Layout>
       <Center>
-        <UploadButton
-          endpoint="imageUploader"
-          onClientUploadComplete={(res) => {
-            // Do something with the response
-            console.log("Files: ", res);
-            alert("Upload Completed");
-          }}
-          onUploadError={(error: Error) => {
-            // Do something with the error.
-            alert(`ERROR! ${error.message}`);
-          }}
-        />
         <VStack
           width={["100%", "100%", "100%", "70%"]}
           spacing={4}
