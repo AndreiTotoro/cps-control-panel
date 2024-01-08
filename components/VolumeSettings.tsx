@@ -1,5 +1,6 @@
 import useCPSStore from "@/store/useCPSStore";
 import { Volum } from "@/types";
+import { UploadButton } from "@/utils/uploadthing";
 import {
   Accordion,
   AccordionButton,
@@ -23,6 +24,7 @@ import { FiTrash } from "react-icons/fi";
 
 export default function VolumeSettings() {
   const { isMaster } = useCPSStore();
+  const [isFileUploaded, setIsFileUploaded] = useState<boolean>(false);
   const [volume, setVolume] = useState<Volum[] | "">("");
   const [titluVolumNou, setTitluVolumNou] = useState<string>("");
   const [linkVolumNou, setLinkVolumNou] = useState<string>("");
@@ -185,6 +187,7 @@ export default function VolumeSettings() {
                 Adauga Volum Nou
               </Text>
               <HStack
+                align={"baseline"}
                 flexDir={["column", "column", "column", "row"]}
                 color={"black"}
               >
@@ -193,11 +196,23 @@ export default function VolumeSettings() {
                   onChange={(e) => setTitluVolumNou(e.target.value)}
                   placeholder="nume volum"
                 />
-                <Input
-                  value={linkVolumNou}
-                  onChange={(e) => setLinkVolumNou(e.target.value)}
-                  placeholder="link volum"
-                />
+                {isFileUploaded ? (
+                  <Text>File uploaded</Text>
+                ) : (
+                  <UploadButton
+                    endpoint="imageUploader"
+                    onClientUploadComplete={(res) => {
+                      // Do something with the response
+                      console.log("Files: ", res);
+                      setLinkVolumNou(res[0].url);
+                      setIsFileUploaded(true);
+                    }}
+                    onUploadError={(error: Error) => {
+                      // Do something with the error.
+                      alert(`ERROR! ${error.message}`);
+                    }}
+                  />
+                )}
                 <Box
                   rounded={"xl"}
                   textAlign={"center"}
