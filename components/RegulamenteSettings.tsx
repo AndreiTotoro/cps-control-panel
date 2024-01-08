@@ -1,5 +1,6 @@
 import useCPSStore from "@/store/useCPSStore";
 import { Regulament, Volum } from "@/types";
+import { UploadButton } from "@/utils/uploadthing";
 import {
   Accordion,
   AccordionButton,
@@ -23,6 +24,7 @@ import { FiTrash } from "react-icons/fi";
 
 export default function RegulamenteSettings() {
   const { isMaster } = useCPSStore();
+  const [isFileUploaded, setIsFileUploaded] = useState<boolean>(false);
   const [regulamente, setRegulamente] = useState<Regulament[] | null>(null);
   const [titluRegulamentNou, setTitluRegulamentNou] = useState<string>("");
   const [linkRegulamentNou, setLinkRegulamentNou] = useState<string>("");
@@ -196,11 +198,23 @@ export default function RegulamenteSettings() {
                   onChange={(e) => setTitluRegulamentNou(e.target.value)}
                   placeholder="nume regulament"
                 />
-                <Input
-                  value={linkRegulamentNou}
-                  onChange={(e) => setLinkRegulamentNou(e.target.value)}
-                  placeholder="link regulament"
-                />
+                {isFileUploaded ? (
+                  <Text>File uploaded</Text>
+                ) : (
+                  <UploadButton
+                    endpoint="imageUploader"
+                    onClientUploadComplete={(res) => {
+                      // Do something with the response
+                      console.log("Files: ", res);
+                      setLinkRegulamentNou(res[0].url);
+                      setIsFileUploaded(true);
+                    }}
+                    onUploadError={(error: Error) => {
+                      // Do something with the error.
+                      alert(`ERROR! ${error.message}`);
+                    }}
+                  />
+                )}
                 <Box
                   rounded={"xl"}
                   textAlign={"center"}
