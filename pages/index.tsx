@@ -26,6 +26,7 @@ import RegulamenteSettings from "@/components/RegulamenteSettings";
 import useCPSStore from "@/store/useCPSStore";
 import PremiiSettings from "@/components/PremiiSettings";
 import AnunturiSettings from "@/components/AnunturiSettings";
+import { UploadButton } from "@/utils/uploadthing";
 
 export default function Home() {
   const { isMaster, setIsMaster } = useCPSStore();
@@ -42,6 +43,18 @@ export default function Home() {
   return (
     <Layout>
       <Center>
+        <UploadButton
+          endpoint="imageUploader"
+          onClientUploadComplete={(res) => {
+            // Do something with the response
+            console.log("Files: ", res);
+            alert("Upload Completed");
+          }}
+          onUploadError={(error: Error) => {
+            // Do something with the error.
+            alert(`ERROR! ${error.message}`);
+          }}
+        />
         <VStack
           width={["100%", "100%", "100%", "70%"]}
           spacing={4}

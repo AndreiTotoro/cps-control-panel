@@ -4,6 +4,7 @@ import {
   extendTheme,
 } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
+import "@uploadthing/react/styles.css";
 
 const theme = extendTheme({
   styles: {
